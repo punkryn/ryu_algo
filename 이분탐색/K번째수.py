@@ -5,17 +5,15 @@ si = sys.stdin.readline
 n = int(si())
 k = int(si())
 
-def deter(cand):
+def deter(mid):
     total = 0
     for i in range(1, n + 1):
-        total += min(n, cand // i)
-    # print('total', total)
+        total += min(n, mid // i)
     return total >= k
 
 l, r, ans = 1, n * n, 0
 while l <= r:
     mid = (l + r) // 2
-    # print(l, r, mid)
     if deter(mid):
         ans = mid
         r = mid - 1
