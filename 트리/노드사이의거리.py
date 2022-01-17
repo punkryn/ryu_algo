@@ -13,6 +13,17 @@ def main():
 
     queries = [list(map(int, si().split())) for _ in range(m)]
 
+    def dfs(x, prev, target, dist):
+        if x == target:
+            print(dist)
+            return
+
+        for nxt in tree[x]:
+            node, d = nxt
+            if node == prev:
+                continue
+            dfs(node, x, target, dist + d)
+
     def bfs(query, target):
         q = deque()
         q.append(query)
@@ -32,7 +43,7 @@ def main():
         return visited[target]
 
     for query in queries:
-        print(bfs(query[0], query[1]))
-
+        # print(bfs(query[0], query[1]))
+        dfs(query[0], -1, query[1], 0)
 if __name__ == '__main__':
     main()
