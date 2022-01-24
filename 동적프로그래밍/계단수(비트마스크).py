@@ -9,7 +9,6 @@ def main():
         dp[1][i][1 << i] = 1
 
     FULL = (1 << 10) - 1
-
     for length in range(2, n + 1):
         for i in range(10):
             for j in range(FULL + 1):
