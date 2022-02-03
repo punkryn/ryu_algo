@@ -2,7 +2,7 @@ from bisect import bisect_left, bisect_right
 
 a = [1, 1, 1, 2, 3, 4, 5, 5, 6, 7, 7,7,7,7,7,7,9,10]
 
-print(bisect_left(a, 1), bisect_right(a, 1))
+print(bisect_left(a, 8), bisect_right(a, 8))
 
 def lower_bound(arr, target):
     start = 0
@@ -26,4 +26,4 @@ def upper_bound(arr, target):
             start = mid + 1
     return end
 
-print(lower_bound(a, 1), upper_bound(a, 1))
+print(lower_bound(a, 8), upper_bound(a, 8))
