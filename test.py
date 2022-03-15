@@ -1,7 +1,48 @@
-dp = [[0] * (26) for _ in range(26)]
-dp[1][1] = 1
-for i in range(1, 26):
-    for j in range(1, 26):
-        if i == 1 and j == 1: continue
-        dp[i][j] = dp[i-1][j] + dp[i][j-1]
-print(dp[-1][-1])
+def solution(n, works):
+    answer = 0
+    
+    total = sum(works) - n
+    if total <= 0:
+        return 0
+    
+    cnt = n
+    while cnt:
+        a, b = 0, 0
+        ai, bi = -1, -1
+        for i, work in enumerate(works):
+            if work > a:
+                a = work
+                ai = i
+            else:
+                if work > b:
+                    b = work
+                    bi = i
+        print(a, b,ai, bi)
+        if abs(a - b) > cnt:
+            if a > b:
+                works[ai] = a - cnt
+            else:
+                works[bi] = b - cnt
+            cnt = 0
+        else:
+            if a > b:
+                gap = a - b
+                works[ai] -= gap
+                cnt -= gap
+            elif a < b:
+                gap = b - a
+                works[bi] -= gap
+                cnt -= gap
+            else:
+                if cnt >= 2:
+                    works[ai] -= 1
+                    works[bi] -= 1
+                    cnt -= 2
+                else:
+                    works[ai] -= 1
+                    cnt -= 1
+    print(works)
+    return answer
+works = [2,1,2]
+n = 1
+solution(n, works)
