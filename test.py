@@ -1,38 +1,31 @@
-def solution(s):
-    answer = len(s)
-    for i in range(1, len(s) // 2 + 1): # 1~cut까지만 자른다
-        ap = []
-        first = s[:i]
-        count = 1
-        for j in range(i, len(s), i):
-            if first == s[j:j+i]:
-                count += 1
-            else:
-                if count >= 2:
-                    ap.append(str(count))
-                    ap.append(first)
-                else:
-                    ap.append(first)
-                first = s[j:j+i]
-                count = 1
-        if count >= 2:
-            ap.append(str(count))
-            ap.append(first)
-        else:
-            ap.append(first)
-        # print(ap)
-        answer = min(answer, len(''.join(ap)))
-    return answer
+import sys
+si = sys.stdin.readline
 
-a = [
-    "aabbaccc",
-    "ababcdcdababcdcd",
-    "abcabcdede",
-    "abcabcabcabcdededededede",
-    "xababcdcdababcdcd",
+def main():
+    n, m = map(int, si().split())
+    arr = sorted(list(map(int, si().split())))
+    s = [0] * 10
+    visited = [0] * n
+    def go(depth, cur):
+        if depth == m + 1:
+            for i in range(1, m + 1):
+                print(s[i], end=' ')
+            print()
+            return
+        
+        prev = 0
+        for i in range(n):
+            if visited[i] == 1 or prev == arr[i]:
+                continue
+            
+            prev = arr[i]
+            visited[i] = 1
+            s[depth] = arr[i]
+            go(depth + 1, prev)
+            s[depth] = 0
+            visited[i] = 0
+        
+    go(1, 0)
 
-    'aaaaaa',
-]
-
-for x in a:
-    print(solution(x))
+if __name__ == '__main__':
+    main()
