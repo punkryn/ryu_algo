@@ -15,10 +15,9 @@ def main():
     for i in range(m):
         dic_[i] = 0
 
-    for i in range(1, n + 1):
+    for i in range(n + 1):
         ps[i] %= m
         dic_[ps[i]] += 1
-    dic_[0] += 1
     ans = 0
     for key in dic_:
         k = dic_[key]
