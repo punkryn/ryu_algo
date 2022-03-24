@@ -29,12 +29,4 @@ if __name__ == '__main__':
     ans = 0
     go(k, '')
 
-    lst = list(possible)
-    ans_set = copy.deepcopy(possible)
-    for i in range(len(possible) - 1):
-        for j in range(i + 1, len(possible)):
-            tmp = abs(lst[i] - lst[j])
-            if tmp not in ans_set:
-                ans += 1
-                ans_set.add(tmp)
     print(sum(weights) - ans)
