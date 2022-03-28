@@ -6,14 +6,16 @@ INF = int(1e9)
 def go(depth, cur, prev):
     global ans
     if depth == 0:
-        print(cur)
         total = 0
-        for c in cur:
-            total += distance[c]
+        for house in houses:
+            tmp = INF
+            for c in cur:
+                tmp = min(tmp, abs(chickens[c][0] - house[0]) + abs(chickens[c][1] - house[1]))
+            total += tmp
         ans = min(ans, total)
         return
     
-    for i in range(prev + 1, len(distance) - depth + 1):
+    for i in range(prev + 1, len(chickens) - depth + 1):
         cur.append(i)
         go(depth - 1, cur, i)
         cur.pop()
@@ -29,11 +31,6 @@ if __name__ == '__main__':
                 houses.append((i, j))
             elif city[i][j] == 2:
                 chickens.append((i, j))
-    
-    distance = [INF] * len(chickens)
-    for i in range(len(chickens)):
-        for house in houses:
-            distance[i] = min(distance[i], abs(house[0] - chickens[i][0]) + abs(house[1] - chickens[i][1]))
     
     ans = INF
     go(m, [], -1)
