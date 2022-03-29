@@ -51,8 +51,8 @@ def find_biggest_block_group():
     block_groups = []
     for i in range(n):
         for j in range(n):
-                # ÀÏ¹Ýºí·Ï >= 1, °ËÀººí·Ïx, ¹«Áö°³ºí·Ïo, ±×·ìÅ©±â >= 2
-                # ±âÁØºí·Ï Çà, ¿­ ±âÁØ ÀÛÀº °Í
+                # ï¿½Ï¹Ýºï¿½ï¿½ï¿½ >= 1, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½x, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o, ï¿½×·ï¿½Å©ï¿½ï¿½ >= 2
+                # ï¿½ï¿½ï¿½Øºï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
             if grid[i][j] == 0 or grid[i][j] == -1 or grid[i][j] == -2:
                 continue
             if visited[i][j] != 0: continue
@@ -97,7 +97,7 @@ def rotate():
             stack.append((i, j, grid[i][j]))
     
     for i, j, v in stack:
-        x, y = ((n - 1) * j + (n - 1)) % n, i
+        x, y = n - j - 1, i
         grid[x][y] = v
 
 if __name__ == '__main__':
