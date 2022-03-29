@@ -1,4 +1,2 @@
-a = dict()
-a[1] = 0
-a.pop(2)
-print(a)
+a = [(1, 2), (1, 3)]
+print(min(a, key=lambda x: (x[0], x[1])))
