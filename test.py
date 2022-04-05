@@ -1,9 +1,9 @@
-from itertools import permutations
-
-tmp = list(permutations(list(range(1, 7)), 4))
-cnt = 0
-for per in tmp:
-    if 5 in per and 6 in per:
-        cnt += 1
-print(cnt)
-print(len(tmp))
+a = [1, 2, 3, 4, 5, 5, 6, 6]
+v1, v2 = 0, 0
+for v in a:
+    if v >= v1:
+        tmp = v1
+        v1 = v
+        if tmp >= v2:
+            v2 = tmp
+print(v1, v2)
