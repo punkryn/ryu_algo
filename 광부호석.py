@@ -7,6 +7,11 @@ if __name__ == '__main__':
     a = sorted([list(map(int, si().split())) for _ in range(n)])
     b = sorted(a, key=lambda x: x[1])
 
+    mh, mw = 0, 0
+    for i in range(c):
+        mw = max(mw, b[i][0])
+        mh = max(mh, a[i][1])
+    
     ps = []
     r = -1
     cnt = 0
@@ -17,9 +22,11 @@ if __name__ == '__main__':
         h2, v2 = 0, 0
         while r + 1 < n and cnt < c:
             r += 1
+            if a[r][0] > mw or a[r][1] > mh:
+                continue
             cnt += 1
             total += a[r][2]
-            
+
             if h < a[r][1]:
                 tmp = h
                 tmp2 = v
@@ -32,7 +39,7 @@ if __name__ == '__main__':
                 if h2 < a[r][1]:
                     h2 = a[r][1]
                     v2 = a[r][2]
-        
+
         ans = max(ans, total)
         cnt -= 1
         total -= v
