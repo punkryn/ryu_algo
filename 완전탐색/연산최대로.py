@@ -33,7 +33,6 @@ def main():
     
     go(q + 1, 0, [], 0)
 
-
     ans = 0
     for per in pt(x, n):
         for cand in candidate:
