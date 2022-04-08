@@ -35,5 +35,5 @@ if __name__ == '__main__':
                 for c in cand:
                     dp[nxt][c] += (dp[cur][c] * cost)
     
-    for i in cand:
+    for i in sorted(list(cand)):
         print(i, dp[n][i])
