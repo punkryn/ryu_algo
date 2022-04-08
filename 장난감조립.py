@@ -22,7 +22,6 @@ if __name__ == '__main__':
             cand.add(i)
     
     while q:
-        print(q)
         cur = q.popleft()
 
         for nxt, cost in graph[cur]:
@@ -34,5 +33,7 @@ if __name__ == '__main__':
                 dp[nxt][cur] += cost
             else:
                 for c in cand:
-                    dp[nxt][cur] += (dp[cur][c] * cost)
-    print(dp)
+                    dp[nxt][c] += (dp[cur][c] * cost)
+    
+    for i in cand:
+        print(i, dp[n][i])
