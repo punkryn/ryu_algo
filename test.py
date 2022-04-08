@@ -1,3 +1,2 @@
-a = [1, 2]
-b = [3, 4]
-print(max(*a, *b))
+a = 0b11
+print(int(a))
