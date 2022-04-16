@@ -14,10 +14,13 @@ if __name__ == '__main__':
     ans = []
     while q:
         cur = q.popleft()
+        print(visited)
+        if cur[0] == 0:
+            ans.append(cur[2])
 
         for i in range(3):
             for j in range(3):
-                if i == j: continue
+                if i == j or cur[i] == 0: continue
                 # i -> j·Î º×±â
                 if cur[i] > bowl[j] - cur[j]:
                     cur[i] -= (bowl[j] - cur[j])
@@ -27,4 +30,6 @@ if __name__ == '__main__':
                     cur[i] = 0
                 
                 if (cur[0], cur[1], cur[2]) not in visited:
-                    visited.add((cur[0]))
+                    visited.add((cur[0], cur[1], cur[2]))
+                    q.append([cur[0], cur[1], cur[2]])
+    print(*ans)
