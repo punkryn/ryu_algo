@@ -20,7 +20,7 @@ def union(x, y):
     else:
         parent[x] = y
 
-def BFS(xs, ys, number):
+def BFS(xs, ys, number, flag):
     q = deque()
     q.append((xs, ys))
     visited = [[-1] * n for _ in range(n)]
@@ -35,6 +35,10 @@ def BFS(xs, ys, number):
 
             visited[nx][ny] = visited[x][y] + 1
             q.append((nx, ny))
+
+            if flag:
+                checked[v[nx][ny]] = 1
+
             if maze[nx][ny] == 'S' or maze[nx][ny] == 'K':
                 edges.append((number, v[nx][ny], visited[nx][ny]))
 
@@ -59,12 +63,19 @@ if __name__ == '__main__':
                 cnt += 1
                 v[i][j] = cnt
                 key_pos.append((i, j))
-            
-    for x, y in start_pos:
-        BFS(x, y, v[x][y])
     
+    checked = [0] * (cnt + 1)
+    checked[start_point] = 1
+    for x, y in start_pos:
+        BFS(x, y, v[x][y], True)
+    
+    for i in range(1, cnt + 1):
+        if checked[i] == 0:
+            print(-1)
+            exit()
+
     for x, y in key_pos:
-        BFS(x, y, v[x][y])
+        BFS(x, y, v[x][y], False)
     
     parent = [i for i in range(cnt + 1)]
     edges.sort(key=lambda x: x[2])
@@ -74,7 +85,4 @@ if __name__ == '__main__':
             union(x, y)
             ans += z
     
-    if ans:
-        print(ans)
-    else:
-        print(-1)
+    print(ans)
