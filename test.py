@@ -1,1 +1,1 @@
-print(min([1, 2, 3]))
+print(2e5)
