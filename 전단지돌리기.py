@@ -2,17 +2,16 @@
 import sys
 si = sys.stdin.readline
 
-def DFS(x, prev, depth):
+def DFS(x, prev):
     global dist
-    tmp = d
+    ret = d
     for nxt in tree[x]:
         if nxt == prev: continue
-        tmp = DFS(nxt, x, depth + 1)
-        if tmp <= 0:
-            dist.add(x)
-    if tmp <= 0:
-        dist.add(x)
-    return tmp - 1
+        tmp = DFS(nxt, x)
+        if tmp > d:
+            dist += 1
+        ret += tmp
+    return ret
 
 if __name__ == '__main__':
     n, s, d = map(int, si().split())
@@ -22,9 +21,6 @@ if __name__ == '__main__':
         tree[a].append(b)
         tree[b].append(a)
 
-    dist = set()
-    DFS(s, 0, 0)
-    if dist:
-        print((len(dist) - 1) * 2)
-    else:
-        print(0)
+    dist = 0    
+    DFS(s, 0)
+    print(dist * 2)
