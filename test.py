@@ -1,37 +1,106 @@
-from collections import deque
-dx = [-1, 0, 1, 0]
-dy = [0, 1, 0, -1]
+from heapq import heappop, heappush
+INF = int(1e9)
 
-def solution(n, m, image):
+def dijkstra(start, end, n, traps, graph, is_trap, trap_idx):
+    distance = [[INF] * (1 << len(traps)) for _ in range(n + 1)]
+    distance[start][0] = 0
+    q = [(0, start, 0)]
+    while q:
+        cur_cost, cur, state = heappop(q)
+
+        if distance[cur][state] < cur_cost:
+            continue
+
+        for nxt, cost, edge_state in graph[cur]:
+            nxt_cost = cost + cur_cost
+            nxt_state = state
+            if not is_trap[cur] and not is_trap[nxt]:
+                if edge_state:
+                    if nxt_cost < distance[nxt][nxt_state]:
+                        distance[nxt][nxt_state] = nxt_cost
+                        heappush(q, (nxt_cost, nxt, nxt_state))
+            elif not is_trap[cur] and is_trap[nxt]:
+                nxt_trap_state = trap_state(nxt, state, trap_idx)
+                if edge_state != nxt_trap_state:
+                    if nxt_trap_state:
+                        nxt_state = off(nxt_state, nxt, trap_idx)
+                    else:
+                        nxt_state = on(nxt_state, nxt, trap_idx)
+                    
+                    if nxt_cost < distance[nxt][nxt_state]:
+                        distance[nxt][nxt_state] = nxt_cost
+                        heappush(q, (nxt_cost, nxt, nxt_state))
+            elif is_trap[cur] and not is_trap[nxt]:
+                cur_trap_state = trap_state(cur, state, trap_idx)
+                if edge_state != cur_trap_state:
+                    if nxt_cost < distance[nxt][nxt_state]:
+                        distance[nxt][nxt_state] = nxt_cost
+                        heappush(q, (nxt_cost, nxt, nxt_state))
+            else:
+                cur_trap_state = trap_state(cur, state, trap_idx)
+                nxt_trap_state = trap_state(nxt, state, trap_idx)
+
+                if cur_trap_state == nxt_trap_state and edge_state:
+                    if nxt_trap_state:
+                        nxt_state = off(nxt_state, nxt, trap_idx)
+                    else:
+                        nxt_state = on(nxt_state, nxt, trap_idx)
+                    
+                    if distance[nxt][nxt_state] > nxt_cost:
+                        distance[nxt][nxt_state] = nxt_cost
+                        heappush(q, (nxt_cost, nxt, nxt_state))
+                elif cur_trap_state != nxt_trap_state and not edge_state:
+                    if nxt_trap_state:
+                        nxt_state = off(nxt_state, nxt, trap_idx)
+                    else:
+                        nxt_state = on(nxt_state, nxt, trap_idx)
+                    
+                    if distance[nxt][nxt_state] > nxt_cost:
+                        distance[nxt][nxt_state] = nxt_cost
+                        heappush(q, (nxt_cost, nxt, nxt_state))
+    
+    ans = INF
+    for i in range((1 << len(traps))):
+        ans = min(ans, distance[end][i])
+    return ans
+                    
+def off(state, idx, trap_idx):
+    return state ^ (1 << trap_idx[idx])
+
+def on(state, idx, trap_idx):
+    return state | (1 << trap_idx[idx])
+            
+def trap_state(nxt, state, trap_idx):
+    if not (state & (1 << trap_idx[nxt])):
+        return False
+    return True
+    
+def make_trap(traps, n):
+    is_trap = [False] * (n + 1)
+    trap_idx = [0] * (n + 1)
+    for i in range(len(traps)):
+        t = traps[i]
+        is_trap[t] = True
+        trap_idx[t] = i
+    return is_trap, trap_idx
+
+def solution(n, start, end, roads, traps):
     answer = 0
     
-    visited = [[False] * m for _ in range(n)]
-    print(image)
-    print(visited)
-    for i in range(n):
-        for j in range(m):
-            if visited[i][j]: continue
-            answer += 1
-            q = deque()
-            q.append((i, j))
-            
-            visited[i][j] = True
-            while q:
-                x, y = q.popleft()
-                
-                for k in range(4):
-                    nx = x + dx[k]
-                    ny = y + dy[i]
-                    print(nx, ny)
-                    if not (0 <= nx < n and 0 <= ny < m) or image[nx][ny] != image[i][j] or visited[nx][ny]:
-                        continue
-                    
-                    visited[nx][ny] = True
-                    q.append((nx, ny))
+    graph = [[] for _ in range(n + 1)]
+    for road in roads:
+        x, y, c = road
+        graph[x].append((y, c, True))
+        graph[y].append((x, c, False))
+    
+    is_trap, trap_idx = make_trap(traps, n)
+    answer = dijkstra(start, end, n, traps, graph, is_trap, trap_idx)
     
     return answer
 
-n = 2
-m = 3
-images = [[1, 2, 3], [3, 2, 1]]
-solution(n, m, images)
+n = 4
+start=1
+end=4
+roads=[[1, 2, 1], [3, 2, 1], [2, 4, 1]]
+traps=[2, 3]
+solution(n, start, end, roads, traps)
