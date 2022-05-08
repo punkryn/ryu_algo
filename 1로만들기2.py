@@ -33,4 +33,5 @@ if __name__ == '__main__':
     while visited[s] > 0:
         ans.append(visited[s])
         s = visited[s]
+    print(len(ans) - 1)
     print(*ans[::-1])
