@@ -42,8 +42,8 @@ if __name__ == '__main__':
             timestamp[seat[cnt]][j] = 1
     
     ans = 0
-    for i in range(9 * 60, 21 * 60):
-        if timestamp[p][i] == -1:
+    for i in range(9 * 60, 21 * 60 + 1):
+        if timestamp[p][i] == 1:
             ans += 1
 
-    print(ans)
+    print(1260 - 540 - ans)
