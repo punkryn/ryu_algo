@@ -23,7 +23,8 @@ def rec_check(x, y, n):
 def go(depth):
     if depth == len(pos):
         for r in board:
-            print(*r)
+            # print(*r)
+            print(''.join(map(str, r)))
         exit()
     
     x, y = pos[depth]
@@ -34,7 +35,9 @@ def go(depth):
             board[x][y] = 0
 
 if __name__ == '__main__':
-    board = [list(map(int, si().split())) for _ in range(9)]
+    # board = [list(map(int, si().split())) for _ in range(9)]
+    board = [[int(n) for n in si().strip()] for _ in range(9)]
+
     pos = [(i, j) for i in range(9) for j in range(9) if board[i][j] == 0]
     
     go(0)
