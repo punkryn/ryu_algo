@@ -1,2 +1,2 @@
-import math
-print(math.log(8, 2))
+a = [1, 2, 3]
+print(a[2::-1])
