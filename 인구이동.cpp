@@ -37,20 +37,14 @@ void input() {
 }
 
 
-
-
 int sol(int xx, int yy) {
-
-    // if(visited[xx][yy] != 0) return;
 
     queue<mov>q;
     q.push({xx,yy});
 
     int sum = A[xx][yy];
     int cnt = 1;
-    // if(visited[xx][yy] == -1){
-    //     visited[xx][yy] += 1;
-    // }
+
     visited[xx][yy] = 1;
     
     vector<pair<int, int>> cand;
@@ -89,28 +83,10 @@ int sol(int xx, int yy) {
         A[c.first][c.second] = calc;
         visited[c.first][c.second] = 2;
     }
-    // for(int i=0;i<n;i++){
-    //     for(int j=0;j<n;j++){
-    //         if(visited[i][j] != 1) continue;
-    //         A[i][j] = calc;
-    //         visited[i][j] = 2;
-    //     }
-    // }
     
     return cnt != 1;
 }
 
-void prt(){
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            
-            cout<<A[i][j]<<' ';
-            // visited[i][j] = 2;
-        }
-        cout<<'\n';
-    }
-    cout<<'\n';
-}
 int main() {
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     input();
